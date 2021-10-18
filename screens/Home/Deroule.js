@@ -9,9 +9,11 @@ import {
   View,
   TouchableHighlight,
   Dimensions,
+  FlatList,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Timeline from 'react-native-timeline-flatlist';
+import DerouleItem from './DerouleItem';
 const {width, height} = Dimensions.get('window');
 let DATA = [
     {time: '09:00', title: 'Event 1', description: 'Event 1 Description'},
@@ -23,23 +25,26 @@ let DATA = [
 
 const MyModal = props => {
     // console.log("HERE");
-    // console.log(props.data);
+    console.log(props.data.activities);
     // let data_activities = new Array();
     // props.data.activities.forEach(element => {
     //     [...data_activities] = {"time" : element.duration, "title": element.exam, "description" : "rien"};
     // });
+                        {/* <Timeline 
+                    style={styles.list}
+                    data={DATA}
+                    /> */}
   if(props.show){
     return (
       <View style={styles.centeredView}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Déroulé de votre examen :</Text>
-              <View>
-                    <Timeline 
-                    style={styles.list}
-                    data={DATA}
-                    />
-                </View>
+                <FlatList
+                    data={props.data.activities}
+                    renderItem={itemData => <DerouleItem data={itemData.item} />}
+                    keyExtractor={item => item.id}
+                />
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => props.closeModal(false)}>
